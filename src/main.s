@@ -13,7 +13,8 @@
 	.forceimport	__STARTUP__
 	.import		_acia_putc
 	.import		_acia_getc
-	.import		_spi_write_to
+	.import		_GD_Init
+	.import		_GD_wr
 	.export		_i
 	.export		_c
 	.export		_main
@@ -38,16 +39,7 @@ _c:
 
 .segment	"CODE"
 
-	ldx     #$28
-	lda     #$0E
-	jsr     pushax
-	lda     #$15
-	jsr     _spi_write_to
-	ldx     #$28
-	lda     #$0F
-	jsr     pushax
-	lda     #$F0
-	jsr     _spi_write_to
+	jsr     _GD_Init
 L0002:	jsr     _acia_getc
 	sta     _c
 	cmp     #$08
@@ -69,7 +61,7 @@ L0008:	lda     _i
 	ldx     _i+1
 	jsr     pushax
 	lda     _c
-	jsr     _spi_write_to
+	jsr     _GD_wr
 	lda     _c
 	jsr     _acia_putc
 	jmp     L0002

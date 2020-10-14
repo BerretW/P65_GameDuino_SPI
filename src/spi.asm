@@ -8,6 +8,11 @@ adrH = tmp2
 adrL = tmp3
 
 .export _spi_write_to
+.export _spi_begin
+.export _spi_end
+.export _spi_write
+.export _spi_write_16
+.export _spi_read
 .code
 
 
@@ -24,23 +29,37 @@ _spi_write_to:      STA tmp1
 										STA SPI_CSSEL
 										LDA tmp2
 										ADC #$80
-										JSR spi_write
+										JSR _spi_write
 										LDA tmp3
-										JSR spi_write
+										JSR _spi_write
 										LDA tmp1
-										JSR spi_write
+										JSR _spi_write
 										LDA #$F
 										STA SPI_CSSEL
                     RTS
 
-spi_write:					STA SPI_DATA
+_spi_write:					STA SPI_DATA
 										JSR spi_delay
 										RTS
 
-spi_begin:
+_spi_write_16:			
+										STA adrL
+										STX adrH
+										LDA adrH
+										JSR _spi_write
+										LDA adrL
+										JSR _spi_write
 										RTS
 
-spi_end:						LDA #$F
+_spi_read:					STA SPI_DATA
+										LDA SPI_DATA
+										RTS
+
+_spi_begin:					LDA #$7
+										STA SPI_CSSEL
+										RTS
+
+_spi_end:						LDA #$F
 										STA SPI_CSSEL
 										RTS
 

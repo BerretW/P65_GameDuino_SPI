@@ -13,8 +13,11 @@
 #include "spi.h"
 unsigned int i = 0;
 char c;
+
 void main(void) {
   GD_Init();
+  //GD_ascii();
+  GD_putstr(0,10,"Ahoj Volove");
   //spi_write_to(0x280E, 0x15);
   //spi_write_to(0x280F, 0xF0);
 while(1){
@@ -28,6 +31,7 @@ while(1){
     }
   }
   GD_wr(i, c);
+
   acia_putc(c);
 
 }

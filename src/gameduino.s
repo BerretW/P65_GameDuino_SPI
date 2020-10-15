@@ -17,10 +17,21 @@
 	.export		___wstart
 	.export		___end
 	.export		_GD_wr
+	.export		_GD_fill
+	.export		_GD_wr16
+	.export		_GD_putstr
+	.export		_GD_setpal
+	.export		_GD_ascii
 	.import		_spi_write_16
 	.import		_spi_write
 	.import		_spi_begin
 	.import		_spi_end
+	.export		_spr
+
+.segment	"BSS"
+
+_spr:
+	.res	1,$00
 
 ; ---------------------------------------------------------------
 ; void __near__ GD_Begin (void)
@@ -71,6 +82,96 @@ L0006:	bpl     L0003
 	jsr     addeq0sp
 	jmp     L0002
 L0003:	jsr     ___end
+	jsr     push0
+	jsr     pusha
+	ldx     #$10
+	jsr     _GD_fill
+	ldx     #$38
+	lda     #$00
+	jsr     pushax
+	jsr     pusha
+	ldx     #$08
+	jsr     _GD_fill
+	ldx     #$40
+	lda     #$00
+	jsr     pushax
+	jsr     pusha
+	jsr     _GD_fill
+	ldx     #$2A
+	lda     #$00
+	jsr     pushax
+	jsr     pusha
+	ldx     #$01
+	jsr     _GD_fill
+	ldx     #$28
+	lda     #$40
+	jsr     pushax
+	lda     #$00
+	jsr     pusha
+	tax
+	lda     #$80
+	jsr     _GD_fill
+	ldx     #$28
+	lda     #$04
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$06
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$08
+	jsr     pushax
+	lda     #$00
+	jsr     _GD_wr
+	ldx     #$28
+	lda     #$0A
+	jsr     pushax
+	lda     #$00
+	jsr     _GD_wr
+	ldx     #$28
+	lda     #$0B
+	jsr     pushax
+	lda     #$00
+	jsr     _GD_wr
+	ldx     #$28
+	lda     #$0C
+	jsr     pushax
+	lda     #$00
+	jsr     _GD_wr
+	ldx     #$28
+	lda     #$0E
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$10
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$12
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$1E
+	jsr     pushax
+	ldx     #$00
+	txa
+	jsr     _GD_wr16
+	ldx     #$28
+	lda     #$14
+	jsr     pushax
+	lda     #$40
+	jsr     _GD_wr
 	jmp     incsp2
 
 .endproc
@@ -90,7 +191,9 @@ L0003:	jsr     ___end
 	jsr     _spi_write_16
 	ldx     #$01
 	lda     #$90
-	jmp     _spi_write_16
+	jsr     _spi_write_16
+	inc     _spr
+	rts
 
 .endproc
 
@@ -167,6 +270,192 @@ L0003:	jsr     ___end
 	jsr     _spi_write
 	jsr     ___end
 	jmp     incsp3
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_fill (unsigned int addr, char v, unsigned int count)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_fill: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	ldy     #$04
+	jsr     ldaxysp
+	jsr     ___wstart
+	jmp     L0004
+L0002:	ldy     #$02
+	lda     (sp),y
+	jsr     _spi_write
+L0004:	jsr     ldax0sp
+	sta     regsave
+	stx     regsave+1
+	jsr     decax1
+	jsr     stax0sp
+	lda     regsave
+	ora     regsave+1
+	bne     L0002
+	jsr     ___end
+	jmp     incsp5
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_wr16 (unsigned int addr, unsigned int v)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_wr16: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	ldy     #$03
+	jsr     ldaxysp
+	jsr     ___wstart
+	jsr     ldax0sp
+	jsr     _spi_write_16
+	jsr     ___end
+	jmp     incsp4
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_putstr (char x, char y, const char *s)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_putstr: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	ldy     #$02
+	ldx     #$00
+	lda     (sp),y
+	jsr     aslax4
+	jsr     aslax2
+	sta     ptr1
+	stx     ptr1+1
+	iny
+	lda     (sp),y
+	clc
+	adc     ptr1
+	ldx     ptr1+1
+	bcc     L0005
+	inx
+L0005:	jsr     ___wstart
+	jmp     L0004
+L0002:	jsr     ldax0sp
+	sta     regsave
+	stx     regsave+1
+	jsr     incax1
+	jsr     stax0sp
+	ldy     #$00
+	lda     (regsave),y
+	jsr     _spi_write
+L0004:	jsr     ldax0sp
+	sta     ptr1
+	stx     ptr1+1
+	ldy     #$00
+	lda     (ptr1),y
+	bne     L0002
+	jsr     ___end
+	jmp     incsp4
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_setpal (char pal, unsigned int rgb)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_setpal: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	ldy     #$02
+	ldx     #$00
+	lda     (sp),y
+	asl     a
+	bcc     L0002
+	inx
+L0002:	sta     ptr1
+	stx     ptr1+1
+	clc
+	lda     ptr1
+	pha
+	lda     #$20
+	adc     ptr1+1
+	tax
+	pla
+	jsr     pushax
+	ldy     #$03
+	jsr     ldaxysp
+	jsr     _GD_wr16
+	jmp     incsp3
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_ascii (void)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_ascii: near
+
+.segment	"CODE"
+
+	jsr     decsp4
+	ldx     #$00
+	stx     sreg
+	stx     sreg+1
+	lda     #$20
+	jsr     steax0sp
+L0002:	jsr     ldeax0sp
+	jsr     pusheax
+	ldx     #$00
+	stx     sreg
+	stx     sreg+1
+	lda     #$80
+	jsr     toslteax
+	beq     L0003
+	jsr     ldeax0sp
+	jsr     asleax2
+	jsr     pusha
+	ldx     #$80
+	lda     #$00
+	jsr     _GD_setpal
+	jsr     ldeax0sp
+	jsr     asleax2
+	ldy     #$03
+	jsr     inceaxy
+	jsr     pusha
+	ldx     #$7F
+	lda     #$FF
+	jsr     _GD_setpal
+	ldx     #$00
+	stx     sreg
+	stx     sreg+1
+	lda     #$01
+	jsr     laddeq0sp
+	jmp     L0002
+L0003:	jsr     push0
+	lda     #$20
+	jsr     pusha
+	ldx     #$10
+	lda     #$00
+	jsr     _GD_fill
+	jmp     incsp4
 
 .endproc
 

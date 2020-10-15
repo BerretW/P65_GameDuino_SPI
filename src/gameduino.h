@@ -7,8 +7,11 @@ extern void __start(unsigned addr);
 extern void __wstart(unsigned addr);
 extern void __end(void);
 extern void GD_wr(unsigned addr, char v);
-
-
+extern void GD_fill(unsigned addr, char v, unsigned count);
+extern void GD_wr16(unsigned addr, unsigned v);
+extern void GD_putstr(char x, char y, const char *s);
+extern void GD_setpal(char pal, unsigned rgb);
+extern void GD_ascii();
 
 #define RGB(r,g,b) ((((r) >> 3) << 10) | (((g) >> 3) << 5) | ((b) >> 3))
 #define TRANSPARENT (1 << 15) // transparent for chars and sprites

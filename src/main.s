@@ -15,6 +15,7 @@
 	.import		_acia_getc
 	.import		_GD_Init
 	.import		_GD_wr
+	.import		_GD_putstr
 	.export		_i
 	.export		_c
 	.export		_main
@@ -23,6 +24,11 @@
 
 _i:
 	.word	$0000
+
+.segment	"RODATA"
+
+S0001:
+	.byte	$41,$68,$6F,$6A,$20,$56,$6F,$6C,$6F,$76,$65,$00
 
 .segment	"BSS"
 
@@ -40,6 +46,13 @@ _c:
 .segment	"CODE"
 
 	jsr     _GD_Init
+	lda     #$00
+	jsr     pusha
+	lda     #$0A
+	jsr     pusha
+	lda     #<(S0001)
+	ldx     #>(S0001)
+	jsr     _GD_putstr
 L0002:	jsr     _acia_getc
 	sta     _c
 	cmp     #$08

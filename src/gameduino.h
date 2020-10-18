@@ -10,6 +10,7 @@ extern void GD_wr(unsigned addr, char v);
 extern void GD_fill(unsigned addr, char v, unsigned count);
 extern void GD_wr16(unsigned addr, unsigned v);
 extern void GD_putstr(char x, char y, const char *s);
+extern void GD_putchar(char x, char y, char c);  //x = pozice znaku y = cislo radky
 extern void GD_setpal(char pal, unsigned rgb);
 extern void GD_ascii();
 

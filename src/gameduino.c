@@ -7,10 +7,10 @@ void GD_Init(){
 int i = 0;
 GD_wr(J1_RESET, 1);
 __wstart(RAM_SPR);            // Hide sdfall sprites
-for ( i = 0; i < 512; ++i) GD_xhide();
+for ( i = 0; i < 256; ++i) GD_xhide();
 __end();
 
-GD_fill(RAM_PIC, 0, 1024 * 4);  // Zero all character RAM
+GD_fill(RAM_PIC, 0, 0x0FFF);  // Zero all character RAM
 GD_fill(RAM_SPRPAL, 0, 2048);    // Sprite palletes black
 GD_fill(RAM_SPRIMG, 0, 64 * 256);   // Clear all sprite data
 GD_fill(VOICES, 0, 256);         // Silence
@@ -76,6 +76,13 @@ void GD_putstr(char x, char y, const char *s)
   __wstart((y << 6) + x);
   while (*s)
     spi_write(*s++);
+  __end();
+}
+
+void GD_putchar(char x, char y, char c)
+{
+  __wstart((y << 6) + x);
+    spi_write(c);
   __end();
 }
 

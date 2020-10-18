@@ -11,11 +11,9 @@
 	.importzp	tmp1, tmp2, tmp3, tmp4, ptr1, ptr2, ptr3, ptr4
 	.macpack	longbranch
 	.forceimport	__STARTUP__
-	.import		_acia_putc
+	.import		_acia_puts
 	.import		_acia_getc
-	.import		_GD_Init
-	.import		_GD_wr
-	.import		_GD_putstr
+	.import		_GD_putchar
 	.export		_i
 	.export		_c
 	.export		_main
@@ -28,7 +26,7 @@ _i:
 .segment	"RODATA"
 
 S0001:
-	.byte	$41,$68,$6F,$6A,$20,$56,$6F,$6C,$6F,$76,$65,$00
+	.byte	$61,$68,$6F,$6A,$20,$76,$6F,$6C,$6F,$76,$65,$00
 
 .segment	"BSS"
 
@@ -45,14 +43,13 @@ _c:
 
 .segment	"CODE"
 
-	jsr     _GD_Init
-	lda     #$00
-	jsr     pusha
-	lda     #$0A
-	jsr     pusha
+	jsr     decsp2
+	ldx     #$00
+	txa
+	jsr     stax0sp
 	lda     #<(S0001)
 	ldx     #>(S0001)
-	jsr     _GD_putstr
+	jsr     _acia_puts
 L0002:	jsr     _acia_getc
 	sta     _c
 	cmp     #$08
@@ -62,21 +59,36 @@ L0002:	jsr     _acia_getc
 	inc     _i+1
 	jmp     L0008
 L0005:	lda     _i
-	ora     _i+1
-	beq     L0008
+	cmp     #$01
+	lda     _i+1
+	sbc     #$00
+	bvs     L0009
+	eor     #$80
+L0009:	bpl     L0008
 	lda     _i
 	sec
 	sbc     #$01
 	sta     _i
 	bcs     L0008
 	dec     _i+1
-L0008:	lda     _i
-	ldx     _i+1
-	jsr     pushax
+L0008:	lda     _i+1
+	bne     L000B
+	lda     _i
+	cmp     #$32
+	bne     L000B
+	ldx     #$00
+	txa
+	sta     _i
+	sta     _i+1
+	lda     #$01
+	jsr     addeq0sp
+L000B:	lda     _i
+	jsr     pusha
+	ldy     #$01
+	lda     (sp),y
+	jsr     pusha
 	lda     _c
-	jsr     _GD_wr
-	lda     _c
-	jsr     _acia_putc
+	jsr     _GD_putchar
 	jmp     L0002
 
 .endproc

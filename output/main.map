@@ -1,78 +1,82 @@
 Modules list:
 -------------
-vectors.o:
-    VECTORS           Offs=000000  Size=000006  Align=00001  Fill=0000
 main.o:
-    CODE              Offs=000000  Size=000057  Align=00001  Fill=0000
+    CODE              Offs=000000  Size=000073  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=00000C  Align=00001  Fill=0000
     BSS               Offs=000000  Size=000001  Align=00001  Fill=0000
     DATA              Offs=000000  Size=000002  Align=00001  Fill=0000
 spi.o:
-    CODE              Offs=000057  Size=000054  Align=00001  Fill=0000
+    CODE              Offs=000073  Size=00003B  Align=00001  Fill=0000
 acia.o:
-    CODE              Offs=0000AB  Size=000048  Align=00001  Fill=0000
+    CODE              Offs=0000AE  Size=000048  Align=00001  Fill=0000
     ZEROPAGE          Offs=000000  Size=000001  Align=00001  Fill=0000
 gameduino.o:
-    CODE              Offs=0000F3  Size=00027F  Align=00001  Fill=0000
+    CODE              Offs=0000F6  Size=0002AF  Align=00001  Fill=0000
     BSS               Offs=000001  Size=000001  Align=00001  Fill=0000
+interrupts.o:
+    CODE              Offs=0003A5  Size=000005  Align=00001  Fill=0000
+vectors.o:
+    VECTORS           Offs=000000  Size=000006  Align=00001  Fill=0000
 ..\library\p65.lib(addeqsp.o):
-    CODE              Offs=000372  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=0003AA  Size=000011  Align=00001  Fill=0000
 ..\library\p65.lib(addysp.o):
-    CODE              Offs=000383  Size=00000E  Align=00001  Fill=0000
+    CODE              Offs=0003BB  Size=00000E  Align=00001  Fill=0000
 ..\library\p65.lib(aslax2.o):
-    CODE              Offs=000391  Size=00000B  Align=00001  Fill=0000
+    CODE              Offs=0003C9  Size=00000B  Align=00001  Fill=0000
 ..\library\p65.lib(aslax4.o):
-    CODE              Offs=00039C  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=0003D4  Size=000011  Align=00001  Fill=0000
 ..\library\p65.lib(asleax2.o):
-    CODE              Offs=0003AD  Size=000013  Align=00001  Fill=0000
+    CODE              Offs=0003E5  Size=000013  Align=00001  Fill=0000
 ..\library\p65.lib(condes.o):
-    CODE              Offs=0003C0  Size=00000C  Align=00001  Fill=0000
+    CODE              Offs=0003F8  Size=00000C  Align=00001  Fill=0000
     DATA              Offs=000002  Size=000025  Align=00001  Fill=0000
     ONCE              Offs=000000  Size=00000C  Align=00001  Fill=0000
 ..\library\p65.lib(copydata.o):
-    CODE              Offs=0003CC  Size=00002D  Align=00001  Fill=0000
+    CODE              Offs=000404  Size=00002D  Align=00001  Fill=0000
 ..\library\p65.lib(crt0.o):
     STARTUP           Offs=000000  Size=00001C  Align=00001  Fill=0000
 ..\library\p65.lib(decax1.o):
-    CODE              Offs=0003F9  Size=000007  Align=00001  Fill=0000
+    CODE              Offs=000431  Size=000007  Align=00001  Fill=0000
+..\library\p65.lib(decsp2.o):
+    CODE              Offs=000438  Size=00000D  Align=00001  Fill=0000
 ..\library\p65.lib(decsp4.o):
-    CODE              Offs=000400  Size=00000D  Align=00001  Fill=0000
+    CODE              Offs=000445  Size=00000D  Align=00001  Fill=0000
 ..\library\p65.lib(incax1.o):
-    CODE              Offs=00040D  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000452  Size=000005  Align=00001  Fill=0000
 ..\library\p65.lib(incsp2.o):
-    CODE              Offs=000412  Size=000015  Align=00001  Fill=0000
+    CODE              Offs=000457  Size=000015  Align=00001  Fill=0000
 ..\library\p65.lib(incsp3.o):
-    CODE              Offs=000427  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=00046C  Size=000005  Align=00001  Fill=0000
 ..\library\p65.lib(incsp4.o):
-    CODE              Offs=00042C  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000471  Size=000005  Align=00001  Fill=0000
 ..\library\p65.lib(incsp5.o):
-    CODE              Offs=000431  Size=000005  Align=00001  Fill=0000
+    CODE              Offs=000476  Size=000005  Align=00001  Fill=0000
 ..\library\p65.lib(laddeqsp.o):
-    CODE              Offs=000436  Size=000023  Align=00001  Fill=0000
+    CODE              Offs=00047B  Size=000023  Align=00001  Fill=0000
 ..\library\p65.lib(lcmp.o):
-    CODE              Offs=000459  Size=00003B  Align=00001  Fill=0000
+    CODE              Offs=00049E  Size=00003B  Align=00001  Fill=0000
 ..\library\p65.lib(ldaxsp.o):
-    CODE              Offs=000494  Size=000009  Align=00001  Fill=0000
+    CODE              Offs=0004D9  Size=000009  Align=00001  Fill=0000
 ..\library\p65.lib(ldeaxysp.o):
-    CODE              Offs=00049D  Size=000013  Align=00001  Fill=0000
+    CODE              Offs=0004E2  Size=000013  Align=00001  Fill=0000
 ..\library\p65.lib(linc.o):
-    CODE              Offs=0004B0  Size=000011  Align=00001  Fill=0000
+    CODE              Offs=0004F5  Size=000011  Align=00001  Fill=0000
 ..\library\p65.lib(llt.o):
-    CODE              Offs=0004C1  Size=000006  Align=00001  Fill=0000
+    CODE              Offs=000506  Size=000006  Align=00001  Fill=0000
 ..\library\p65.lib(lpush.o):
-    CODE              Offs=0004C7  Size=00001E  Align=00001  Fill=0000
+    CODE              Offs=00050C  Size=00001E  Align=00001  Fill=0000
 ..\library\p65.lib(makebool.o):
-    CODE              Offs=0004E5  Size=00002C  Align=00001  Fill=0000
+    CODE              Offs=00052A  Size=00002C  Align=00001  Fill=0000
 ..\library\p65.lib(pusha.o):
-    CODE              Offs=000511  Size=000016  Align=00001  Fill=0000
+    CODE              Offs=000556  Size=000016  Align=00001  Fill=0000
 ..\library\p65.lib(pushax.o):
-    CODE              Offs=000527  Size=00001A  Align=00001  Fill=0000
+    CODE              Offs=00056C  Size=00001A  Align=00001  Fill=0000
 ..\library\p65.lib(staxsp.o):
-    CODE              Offs=000541  Size=00000B  Align=00001  Fill=0000
+    CODE              Offs=000586  Size=00000B  Align=00001  Fill=0000
 ..\library\p65.lib(steaxsp.o):
-    CODE              Offs=00054C  Size=000015  Align=00001  Fill=0000
+    CODE              Offs=000591  Size=000015  Align=00001  Fill=0000
 ..\library\p65.lib(zerobss.o):
-    CODE              Offs=000561  Size=000023  Align=00001  Fill=0000
+    CODE              Offs=0005A6  Size=000023  Align=00001  Fill=0000
 ..\library\p65.lib(zeropage.o):
     ZEROPAGE          Offs=000001  Size=00001A  Align=00001  Fill=0000
 
@@ -86,91 +90,87 @@ DATA                  000200  000226  000027  00001
 BSS                   000227  000228  000002  00001
 STARTUP               006027  006042  00001C  00001
 ONCE                  006043  00604E  00000C  00001
-CODE                  00604F  0065D2  000584  00001
-RODATA                0065D3  0065DE  00000C  00001
+CODE                  00604F  006617  0005C9  00001
+RODATA                006618  006623  00000C  00001
 VECTORS               007FFA  007FFF  000006  00001
 
 
 Exports list by name:
 ---------------------
-_GD_Init                  006145 RLA    _GD_putstr                0062E7 RLA    
-_GD_wr                    00628A RLA    __BSS_RUN__               000227 RLA    
+_GD_putchar               006337 RLA    __BSS_RUN__               000227 RLA    
 __BSS_SIZE__              000002 REA    __CONSTRUCTOR_COUNT__     000000 REA    
 __CONSTRUCTOR_TABLE__     006043 RLA    __DATA_LOAD__             006000 RLA    
 __DATA_RUN__              000200 RLA    __DATA_SIZE__             000027 REA    
 __DESTRUCTOR_COUNT__      000000 REA    __DESTRUCTOR_TABLE__      006043 RLA    
 __RAM_SIZE__              005DFF REA    __RAM_START__             000200 RLA    
-__STARTUP__               000001 REA    _acia_getc                006137 RLA    
-_acia_putc                006107 RLA    _init                     006027 RLA    
-_main                     00604F RLA    _spi_begin                0060E8 RLA    
-_spi_end                  0060EE RLA    _spi_write                0060CB RLA    
-_spi_write_16             0060D2 RLA    addeq0sp                  0063C1 RLA    
-addysp                    0063D3 RLA    aslax2                    0063E0 RLA    
-aslax4                    0063EB RLA    asleax2                   0063FC RLA    
-boollt                    006543 RLA    copydata                  00641B RLA    
-decax1                    006448 RLA    decsp4                    00644F RLA    
-donelib                   00640F RLA    incax1                    00645C RLA    
-inceaxy                   0064FF RLA    incsp2                    006468 RLA    
-incsp3                    006476 RLA    incsp4                    00647B RLA    
-incsp5                    006480 RLA    initlib                   006043 RLA    
-laddeq0sp                 006485 RLA    ldax0sp                   0064E3 RLA    
-ldaxysp                   0064E5 RLA    ldeax0sp                  0064EC RLA    
-popax                     006461 RLA    ptr1                      000009 RLZ    
+__STARTUP__               000001 REA    _acia_getc                00613A RLA    
+_acia_puts                006117 RLA    _init                     006027 RLA    
+_irq_int                  0063F5 RLA    _main                     00604F RLA    
+_nmi_int                  0063F4 RLA    _spi_begin                0060DF RLA    
+_spi_end                  0060E8 RLA    _spi_write                0060C2 RLA    
+_spi_write_16             0060C9 RLA    addeq0sp                  0063F9 RLA    
+addysp                    00640B RLA    aslax2                    006418 RLA    
+aslax4                    006423 RLA    asleax2                   006434 RLA    
+boollt                    006588 RLA    copydata                  006453 RLA    
+decax1                    006480 RLA    decsp2                    006487 RLA    
+decsp4                    006494 RLA    donelib                   006447 RLA    
+incax1                    0064A1 RLA    inceaxy                   006544 RLA    
+incsp2                    0064AD RLA    incsp3                    0064BB RLA    
+incsp4                    0064C0 RLA    incsp5                    0064C5 RLA    
+initlib                   006043 RLA    laddeq0sp                 0064CA RLA    
+ldax0sp                   006528 RLA    ldaxysp                   00652A RLA    
+ldeax0sp                  006531 RLA    ptr1                      000009 RLZ    
 ptr2                      00000B RLZ    ptr4                      00000F RLZ    
-push0                     006576 RLA    pusha                     006564 RLA    
-pushax                    00657A RLA    pusheax                   00651D RLA    
+push0                     0065BB RLA    pusha                     0065A9 RLA    
+pushax                    0065BF RLA    pusheax                   006562 RLA    
 regsave                   000005 RLZ    sp                        000001 RLZ    
-sreg                      000003 RLZ    stax0sp                   006590 RLA    
-steax0sp                  00659B RLA    tmp1                      000011 RLZ    
+sreg                      000003 RLZ    stax0sp                   0065D5 RLA    
+steax0sp                  0065E0 RLA    tmp1                      000011 RLZ    
 tmp2                      000012 RLZ    tmp3                      000013 RLZ    
-toslcmp                   0064A8 RLA    toslteax                  006510 RLA    
-zerobss                   0065B0 RLA    
+toslcmp                   0064ED RLA    toslteax                  006555 RLA    
+zerobss                   0065F5 RLA    
 
 
 Exports list by value:
 ----------------------
 __DESTRUCTOR_COUNT__      000000 REA    __CONSTRUCTOR_COUNT__     000000 REA    
-__STARTUP__               000001 REA    sp                        000001 RLZ    
+sp                        000001 RLZ    __STARTUP__               000001 REA    
 __BSS_SIZE__              000002 REA    sreg                      000003 RLZ    
 regsave                   000005 RLZ    ptr1                      000009 RLZ    
 ptr2                      00000B RLZ    ptr4                      00000F RLZ    
 tmp1                      000011 RLZ    tmp2                      000012 RLZ    
 tmp3                      000013 RLZ    __DATA_SIZE__             000027 REA    
-__DATA_RUN__              000200 RLA    __RAM_START__             000200 RLA    
+__RAM_START__             000200 RLA    __DATA_RUN__              000200 RLA    
 __BSS_RUN__               000227 RLA    __RAM_SIZE__              005DFF REA    
 __DATA_LOAD__             006000 RLA    _init                     006027 RLA    
-initlib                   006043 RLA    __CONSTRUCTOR_TABLE__     006043 RLA    
-__DESTRUCTOR_TABLE__      006043 RLA    _main                     00604F RLA    
-_spi_write                0060CB RLA    _spi_write_16             0060D2 RLA    
-_spi_begin                0060E8 RLA    _spi_end                  0060EE RLA    
-_acia_putc                006107 RLA    _acia_getc                006137 RLA    
-_GD_Init                  006145 RLA    _GD_wr                    00628A RLA    
-_GD_putstr                0062E7 RLA    addeq0sp                  0063C1 RLA    
-addysp                    0063D3 RLA    aslax2                    0063E0 RLA    
-aslax4                    0063EB RLA    asleax2                   0063FC RLA    
-donelib                   00640F RLA    copydata                  00641B RLA    
-decax1                    006448 RLA    decsp4                    00644F RLA    
-incax1                    00645C RLA    popax                     006461 RLA    
-incsp2                    006468 RLA    incsp3                    006476 RLA    
-incsp4                    00647B RLA    incsp5                    006480 RLA    
-laddeq0sp                 006485 RLA    toslcmp                   0064A8 RLA    
-ldax0sp                   0064E3 RLA    ldaxysp                   0064E5 RLA    
-ldeax0sp                  0064EC RLA    inceaxy                   0064FF RLA    
-toslteax                  006510 RLA    pusheax                   00651D RLA    
-boollt                    006543 RLA    pusha                     006564 RLA    
-push0                     006576 RLA    pushax                    00657A RLA    
-stax0sp                   006590 RLA    steax0sp                  00659B RLA    
-zerobss                   0065B0 RLA    
+__DESTRUCTOR_TABLE__      006043 RLA    __CONSTRUCTOR_TABLE__     006043 RLA    
+initlib                   006043 RLA    _main                     00604F RLA    
+_spi_write                0060C2 RLA    _spi_write_16             0060C9 RLA    
+_spi_begin                0060DF RLA    _spi_end                  0060E8 RLA    
+_acia_puts                006117 RLA    _acia_getc                00613A RLA    
+_GD_putchar               006337 RLA    _nmi_int                  0063F4 RLA    
+_irq_int                  0063F5 RLA    addeq0sp                  0063F9 RLA    
+addysp                    00640B RLA    aslax2                    006418 RLA    
+aslax4                    006423 RLA    asleax2                   006434 RLA    
+donelib                   006447 RLA    copydata                  006453 RLA    
+decax1                    006480 RLA    decsp2                    006487 RLA    
+decsp4                    006494 RLA    incax1                    0064A1 RLA    
+incsp2                    0064AD RLA    incsp3                    0064BB RLA    
+incsp4                    0064C0 RLA    incsp5                    0064C5 RLA    
+laddeq0sp                 0064CA RLA    toslcmp                   0064ED RLA    
+ldax0sp                   006528 RLA    ldaxysp                   00652A RLA    
+ldeax0sp                  006531 RLA    inceaxy                   006544 RLA    
+toslteax                  006555 RLA    pusheax                   006562 RLA    
+boollt                    006588 RLA    pusha                     0065A9 RLA    
+push0                     0065BB RLA    pushax                    0065BF RLA    
+stax0sp                   0065D5 RLA    steax0sp                  0065E0 RLA    
+zerobss                   0065F5 RLA    
 
 
 Imports list:
 -------------
-_GD_Init (gameduino.o):
+_GD_putchar (gameduino.o):
     main.o                    main.s(16)
-_GD_putstr (gameduino.o):
-    main.o                    main.s(18)
-_GD_wr (gameduino.o):
-    main.o                    main.s(17)
 __BSS_RUN__ ([linker generated]):
     zerobss.o                 common/zerobss.s(8)
 __BSS_SIZE__ ([linker generated]):
@@ -197,110 +197,118 @@ __STARTUP__ (crt0.o):
     main.o                    main.s(13)
 _acia_getc (acia.o):
     main.o                    main.s(15)
-_acia_putc (acia.o):
+_acia_puts (acia.o):
     main.o                    main.s(14)
 _init (crt0.o):
     vectors.o                 vectors.asm(7)
+_irq_int (interrupts.o):
+    vectors.o                 vectors.asm(9)
 _main (main.o):
     crt0.o                    .\src\crt0.s(8)
+_nmi_int (interrupts.o):
+    vectors.o                 vectors.asm(8)
 _spi_begin (spi.o):
-    gameduino.o               gameduino.s(27)
-_spi_end (spi.o):
     gameduino.o               gameduino.s(28)
+_spi_end (spi.o):
+    gameduino.o               gameduino.s(29)
 _spi_write (spi.o):
-    gameduino.o               gameduino.s(26)
+    gameduino.o               gameduino.s(27)
 _spi_write_16 (spi.o):
-    gameduino.o               gameduino.s(25)
+    gameduino.o               gameduino.s(26)
 addeq0sp (addeqsp.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    main.o                    main.s(95)
 addysp (addysp.o):
     incsp5.o                  runtime/incsp5.s(8)
     incsp4.o                  runtime/incsp4.s(8)
     incsp3.o                  runtime/incsp3.s(8)
 aslax2 (aslax2.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 aslax4 (aslax4.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 asleax2 (asleax2.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 boollt (makebool.o):
     llt.o                     runtime/llt.s(8)
 copydata (copydata.o):
     crt0.o                    .\src\crt0.s(13)
 decax1 (decax1.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+decsp2 (decsp2.o):
+    main.o                    main.s(95)
 decsp4 (decsp4.o):
     lpush.o                   runtime/lpush.s(12)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 donelib (condes.o):
     crt0.o                    .\src\crt0.s(13)
 incax1 (incax1.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 inceaxy (linc.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 incsp2 (incsp2.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 incsp3 (incsp3.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 incsp4 (incsp4.o):
     lcmp.o                    runtime/lcmp.s(9)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 incsp5 (incsp5.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 initlib (condes.o):
     crt0.o                    .\src\crt0.s(13)
 laddeq0sp (laddeqsp.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 ldax0sp (ldaxsp.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 ldaxysp (ldaxsp.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 ldeax0sp (ldeaxysp.o):
-    gameduino.o               gameduino.s(461)
-popax (incsp2.o):
-    spi.o                     spi.asm(3)
+    gameduino.o               gameduino.s(497)
 ptr1 (zeropage.o):
     lcmp.o                    runtime/lcmp.s(10)
     copydata.o                common/copydata.s(9)
     zerobss.o                 common/zerobss.s(9)
     gameduino.o               gameduino.s(11)
-    acia.o                    acia.s(9)
+    acia.o                    acia.asm(9)
 ptr2 (zeropage.o):
     copydata.o                common/copydata.s(9)
 ptr4 (zeropage.o):
     linc.o                    runtime/linc.s(8)
 push0 (pushax.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 pusha (pusha.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    main.o                    main.s(83)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    main.o                    main.s(95)
 pushax (pushax.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    main.o                    main.s(83)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
 pusheax (lpush.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 regsave (zeropage.o):
     gameduino.o               gameduino.s(10)
 sp (zeropage.o):
@@ -316,9 +324,11 @@ sp (zeropage.o):
     laddeqsp.o                runtime/laddeqsp.s(8)
     incsp2.o                  runtime/incsp2.s(8)
     decsp4.o                  runtime/decsp4.s(8)
+    decsp2.o                  runtime/decsp2.s(8)
     crt0.o                    C:\cc65\asminc/zeropage.inc(11)
     addeqsp.o                 runtime/addeqsp.s(8)
     gameduino.o               gameduino.s(10)
+    main.o                    main.s(10)
 sreg (zeropage.o):
     lcmp.o                    runtime/lcmp.s(10)
     steaxsp.o                 runtime/steaxsp.s(8)
@@ -329,11 +339,12 @@ sreg (zeropage.o):
     asleax2.o                 runtime/asleax2.s(8)
     gameduino.o               gameduino.s(10)
 stax0sp (staxsp.o):
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    gameduino.o               gameduino.s(497)
+    main.o                    main.s(95)
 steax0sp (steaxsp.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 tmp1 (zeropage.o):
     copydata.o                common/copydata.s(9)
     asleax2.o                 runtime/asleax2.s(8)
@@ -347,7 +358,7 @@ tmp3 (zeropage.o):
 toslcmp (lcmp.o):
     llt.o                     runtime/llt.s(8)
 toslteax (llt.o):
-    gameduino.o               gameduino.s(461)
+    gameduino.o               gameduino.s(497)
 zerobss (zerobss.o):
     crt0.o                    .\src\crt0.s(13)
 

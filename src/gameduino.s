@@ -20,6 +20,7 @@
 	.export		_GD_fill
 	.export		_GD_wr16
 	.export		_GD_putstr
+	.export		_GD_putchar
 	.export		_GD_setpal
 	.export		_GD_ascii
 	.import		_spi_write_16
@@ -72,7 +73,7 @@ _spr:
 L0002:	jsr     ldax0sp
 	cmp     #$00
 	txa
-	sbc     #$02
+	sbc     #$01
 	bvc     L0006
 	eor     #$80
 L0006:	bpl     L0003
@@ -84,7 +85,8 @@ L0006:	bpl     L0003
 L0003:	jsr     ___end
 	jsr     push0
 	jsr     pusha
-	ldx     #$10
+	ldx     #$0F
+	lda     #$FF
 	jsr     _GD_fill
 	ldx     #$38
 	lda     #$00
@@ -368,6 +370,40 @@ L0004:	jsr     ldax0sp
 	bne     L0002
 	jsr     ___end
 	jmp     incsp4
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_putchar (char x, char y, char c)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_putchar: near
+
+.segment	"CODE"
+
+	jsr     pusha
+	ldy     #$01
+	ldx     #$00
+	lda     (sp),y
+	jsr     aslax4
+	jsr     aslax2
+	sta     ptr1
+	stx     ptr1+1
+	iny
+	lda     (sp),y
+	clc
+	adc     ptr1
+	ldx     ptr1+1
+	bcc     L0002
+	inx
+L0002:	jsr     ___wstart
+	ldy     #$00
+	lda     (sp),y
+	jsr     _spi_write
+	jsr     ___end
+	jmp     incsp3
 
 .endproc
 

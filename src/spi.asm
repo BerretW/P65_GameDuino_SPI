@@ -21,6 +21,7 @@ adrL = tmp3
 .export _spi_write
 .export _spi_write_16
 .export _spi_read
+.export _spi_init
 .code
 
 
@@ -46,6 +47,10 @@ adrL = tmp3
 ;										STA SPI_CSSEL
 ;                    RTS
 
+_spi_init:					LDA #4
+										STA SPI_STATUS
+										RTS
+
 _spi_write:					STA SPI_DATA
 										JSR spi_delay
 										RTS
@@ -64,17 +69,14 @@ _spi_read:					STA SPI_DATA
 
 _spi_begin:					LDA SPI_CS
 										STA SPI_CSSEL
-										JSR spi_delay
 										RTS
 
 _spi_end:						LDA #$F
 										STA SPI_CSSEL
-										JSR spi_delay
-										JSR spi_delay
-										JSR spi_delay
 										RTS
 
-spi_delay:					LDX #1
+spi_delay:					RTS
+										LDX #1
 @_delay_1:					DEX
 										BEQ @_delay_1
 										RTS

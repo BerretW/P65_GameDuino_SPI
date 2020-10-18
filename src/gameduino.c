@@ -5,9 +5,10 @@ char spr;
 
 void GD_Init(){
 int i = 0;
+//spi_init();
 GD_wr(J1_RESET, 1);
 __wstart(RAM_SPR);            // Hide sdfall sprites
-for ( i = 0; i < 256; ++i) GD_xhide();
+for ( i = 0; i < 512; ++i) GD_xhide();
 __end();
 
 GD_fill(RAM_PIC, 0, 0x0FFF);  // Zero all character RAM
@@ -50,7 +51,7 @@ void GD_wr16(unsigned addr, unsigned v)
 
 
 void __start(unsigned addr){
-  GD_Begin();
+  spi_begin();
   spi_write_16(addr);
 }
 

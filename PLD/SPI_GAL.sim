@@ -1,0 +1,21 @@
+%SIGNAL
+PIN   2 =  A8 
+PIN   3 =  A9 
+PIN   4 =  A10 
+PIN   5 =  A11 
+PIN   1 =  CS 
+PIN  19 =  YM_CS 
+%END
+
+%FIELD
+FIELD ADDRESS = A11,A10,A9,A8
+%END
+
+%EQUATION
+YMCS =>
+    !A8 & A9 & A10 & A11
+
+!YM_CS =>
+    !A8 & A9 & A10 & A11 & !CS
+
+%END

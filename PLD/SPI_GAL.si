@@ -1,0 +1,16 @@
+Name     SPI_GAL;
+PartNo   00;
+Date     18.10.2020;
+Revision 01;
+Designer Engineer;
+Company  ss;
+Assembly None;
+Location ;
+Device   g16v8;
+
+
+ORDER: A8, A9, A10, A11, CS, YM_CS; 
+
+
+VECTORS:
+01010*

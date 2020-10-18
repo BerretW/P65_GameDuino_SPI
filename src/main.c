@@ -17,33 +17,40 @@ char c;
 
 void main(void) {
   //
-  int y;
-  y = 0;
+  int y = 0;
   //GD_Init();
-  //GD_fill(RAM_PIC, 0, 0x0FFF);
+  //GD_fill(RAM_PIC, 0, 0x1000);
   //GD_ascii();
-  //GD_putstr(0,10,"Ahoj Volove");
+  GD_putstr(0,10,"Ahoj Volove");
 
   acia_puts("ahoj volove");
   //spi_write_to(0x280E, 0x15);
   //spi_write_to(0x280F, 0xF0);
+  while(1){
+
+    for (i =0;i<20;++i){
+      GD_fill(RAM_PIC, 41+i, 0x0FFF);
+    }
+
+  }
 while(1){
   c = acia_getc();
-
+  GD_putchar(i,y, c);
+  acia_putc(c);
   if (c != 0x8) {
     ++i;
   } else {
+    //c = 0x00;
     if (i > 0) {
     --i;
+    GD_putchar(i,y, c);
     }
   }
   if (i == 50){
     i = 0;
     ++y;
   }
-  GD_putchar(i,y, c);
 
-  //acia_putc(c);
 
 }
 

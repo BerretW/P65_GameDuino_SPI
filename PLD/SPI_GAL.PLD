@@ -1,0 +1,29 @@
+Name     SPI_GAL ;
+PartNo   00 ;
+Date     18.10.2020 ;
+Revision 01 ;
+Designer Engineer ;
+Company  ss ;
+Assembly None ;
+Location  ;
+Device   g16v8 ;
+
+/* *************** INPUT PINS *********************/
+
+
+PIN  1  = CS                     ; /*                                 */ 
+PIN  2  = A8                     ; /*                                 */ 
+PIN  3  = A9                     ; /*                                 */ 
+PIN  4  = A10                     ; /*                                 */ 
+PIN  5  = A11                     ; /*                                 */
+
+
+
+FIELD ADDRESS = [A11..8];
+
+/* *************** OUTPUT PINS *********************/
+PIN 19  = YM_CS	                 	; /*                                 */ 
+
+YMCS		= ADDRESS:[E00..EFF];
+!YM_CS		= YMCS & !CS;
+

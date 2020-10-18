@@ -11,8 +11,11 @@
 	.importzp	tmp1, tmp2, tmp3, tmp4, ptr1, ptr2, ptr3, ptr4
 	.macpack	longbranch
 	.forceimport	__STARTUP__
+	.import		_acia_putc
 	.import		_acia_puts
 	.import		_acia_getc
+	.import		_GD_fill
+	.import		_GD_putstr
 	.import		_GD_putchar
 	.export		_i
 	.export		_c
@@ -25,8 +28,10 @@ _i:
 
 .segment	"RODATA"
 
-S0001:
+S0002:
 	.byte	$61,$68,$6F,$6A,$20,$76,$6F,$6C,$6F,$76,$65,$00
+S0001:
+	.byte	$41,$68,$6F,$6A,$20,$56,$6F,$6C,$6F,$76,$65,$00
 
 .segment	"BSS"
 
@@ -43,35 +48,80 @@ _c:
 
 .segment	"CODE"
 
-	jsr     decsp2
-	ldx     #$00
-	txa
-	jsr     stax0sp
+	jsr     push0
+	jsr     pusha
+	lda     #$0A
+	jsr     pusha
 	lda     #<(S0001)
 	ldx     #>(S0001)
+	jsr     _GD_putstr
+	lda     #<(S0002)
+	ldx     #>(S0002)
 	jsr     _acia_puts
-L0002:	jsr     _acia_getc
-	sta     _c
-	cmp     #$08
-	beq     L0005
-	inc     _i
-	bne     L0008
-	inc     _i+1
-	jmp     L0008
+	lda     #$00
+L0017:	sta     _i
+	sta     _i+1
 L0005:	lda     _i
+	cmp     #$14
+	lda     _i+1
+	sbc     #$00
+	bvc     L0009
+	eor     #$80
+L0009:	asl     a
+	lda     #$00
+	bcc     L0017
+	jsr     push0
+	lda     _i
+	ldx     _i+1
+	ldy     #$29
+	jsr     incaxy
+	jsr     pusha
+	ldx     #$0F
+	lda     #$FF
+	jsr     _GD_fill
+	inc     _i
+	bne     L0005
+	inc     _i+1
+	jmp     L0005
+L000B:	jsr     _acia_getc
+	sta     _c
+	lda     _i
+	jsr     pusha
+	ldy     #$01
+	lda     (sp),y
+	jsr     pusha
+	lda     _c
+	jsr     _GD_putchar
+	lda     _c
+	jsr     _acia_putc
+	lda     _c
+	cmp     #$08
+	beq     L000E
+	inc     _i
+	bne     L0011
+	inc     _i+1
+	jmp     L0011
+L000E:	lda     _i
 	cmp     #$01
 	lda     _i+1
 	sbc     #$00
-	bvs     L0009
+	bvs     L0012
 	eor     #$80
-L0009:	bpl     L0008
+L0012:	bpl     L0011
 	lda     _i
 	sec
 	sbc     #$01
 	sta     _i
-	bcs     L0008
+	bcs     L0013
 	dec     _i+1
-L0008:	lda     _i+1
+L0013:	lda     _i
+	jsr     pusha
+	ldy     #$01
+	lda     (sp),y
+	jsr     pusha
+	lda     _c
+	jsr     _GD_putchar
+L0011:	lda     _i+1
 	bne     L000B
 	lda     _i
 	cmp     #$32
@@ -82,14 +132,7 @@ L0008:	lda     _i+1
 	sta     _i+1
 	lda     #$01
 	jsr     addeq0sp
-L000B:	lda     _i
-	jsr     pusha
-	ldy     #$01
-	lda     (sp),y
-	jsr     pusha
-	lda     _c
-	jsr     _GD_putchar
-	jmp     L0002
+	jmp     L000B
 
 .endproc
 

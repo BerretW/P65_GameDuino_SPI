@@ -73,7 +73,7 @@ _spr:
 L0002:	jsr     ldax0sp
 	cmp     #$00
 	txa
-	sbc     #$01
+	sbc     #$02
 	bvc     L0006
 	eor     #$80
 L0006:	bpl     L0003
@@ -210,7 +210,7 @@ L0003:	jsr     ___end
 .segment	"CODE"
 
 	jsr     pushax
-	jsr     _GD_Begin
+	jsr     _spi_begin
 	jsr     ldax0sp
 	jsr     _spi_write_16
 	jmp     incsp2

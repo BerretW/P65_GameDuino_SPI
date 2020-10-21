@@ -1,2 +1,2 @@
 # P65_GameDuino_SPI
-sssdf
+Test SPI interface a Gameduino 

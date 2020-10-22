@@ -16,18 +16,812 @@
 	.export		___start
 	.export		___wstart
 	.export		___end
+	.export		_GD_rd
 	.export		_GD_wr
 	.export		_GD_fill
 	.export		_GD_wr16
+	.export		_GD_rd16
 	.export		_GD_putstr
 	.export		_GD_putchar
+	.export		_GD_sprite
 	.export		_GD_setpal
 	.export		_GD_ascii
+	.export		_GD_copy
 	.import		_spi_write_16
 	.import		_spi_write
 	.import		_spi_begin
 	.import		_spi_end
+	.import		_spi_read
 	.export		_spr
+
+.segment	"DATA"
+
+_font8x8:
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$18
+	.byte	$00
+	.byte	$6C
+	.byte	$6C
+	.byte	$6C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$36
+	.byte	$36
+	.byte	$7F
+	.byte	$36
+	.byte	$7F
+	.byte	$36
+	.byte	$36
+	.byte	$00
+	.byte	$0C
+	.byte	$3F
+	.byte	$68
+	.byte	$3E
+	.byte	$0B
+	.byte	$7E
+	.byte	$18
+	.byte	$00
+	.byte	$60
+	.byte	$66
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$66
+	.byte	$06
+	.byte	$00
+	.byte	$38
+	.byte	$6C
+	.byte	$6C
+	.byte	$38
+	.byte	$6D
+	.byte	$66
+	.byte	$3B
+	.byte	$00
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$30
+	.byte	$30
+	.byte	$18
+	.byte	$0C
+	.byte	$00
+	.byte	$30
+	.byte	$18
+	.byte	$0C
+	.byte	$0C
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$7E
+	.byte	$3C
+	.byte	$7E
+	.byte	$18
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$7E
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$30
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$7E
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$00
+	.byte	$06
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$60
+	.byte	$00
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$6E
+	.byte	$7E
+	.byte	$76
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$18
+	.byte	$38
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$7E
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$06
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$7E
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$06
+	.byte	$1C
+	.byte	$06
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$0C
+	.byte	$1C
+	.byte	$3C
+	.byte	$6C
+	.byte	$7E
+	.byte	$0C
+	.byte	$0C
+	.byte	$00
+	.byte	$7E
+	.byte	$60
+	.byte	$7C
+	.byte	$06
+	.byte	$06
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$1C
+	.byte	$30
+	.byte	$60
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$7E
+	.byte	$06
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$30
+	.byte	$30
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$06
+	.byte	$0C
+	.byte	$38
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$30
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$60
+	.byte	$30
+	.byte	$18
+	.byte	$0C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$7E
+	.byte	$00
+	.byte	$7E
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$30
+	.byte	$18
+	.byte	$0C
+	.byte	$06
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$0C
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$18
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$6E
+	.byte	$6A
+	.byte	$6E
+	.byte	$60
+	.byte	$3C
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$7E
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$78
+	.byte	$6C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$6C
+	.byte	$78
+	.byte	$00
+	.byte	$7E
+	.byte	$60
+	.byte	$60
+	.byte	$7C
+	.byte	$60
+	.byte	$60
+	.byte	$7E
+	.byte	$00
+	.byte	$7E
+	.byte	$60
+	.byte	$60
+	.byte	$7C
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$60
+	.byte	$6E
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$7E
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$7E
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$7E
+	.byte	$00
+	.byte	$3E
+	.byte	$0C
+	.byte	$0C
+	.byte	$0C
+	.byte	$0C
+	.byte	$6C
+	.byte	$38
+	.byte	$00
+	.byte	$66
+	.byte	$6C
+	.byte	$78
+	.byte	$70
+	.byte	$78
+	.byte	$6C
+	.byte	$66
+	.byte	$00
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$7E
+	.byte	$00
+	.byte	$63
+	.byte	$77
+	.byte	$7F
+	.byte	$6B
+	.byte	$6B
+	.byte	$63
+	.byte	$63
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$76
+	.byte	$7E
+	.byte	$6E
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$6A
+	.byte	$6C
+	.byte	$36
+	.byte	$00
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$6C
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$60
+	.byte	$3C
+	.byte	$06
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$7E
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$18
+	.byte	$00
+	.byte	$63
+	.byte	$63
+	.byte	$6B
+	.byte	$6B
+	.byte	$7F
+	.byte	$77
+	.byte	$63
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$18
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$7E
+	.byte	$06
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$60
+	.byte	$7E
+	.byte	$00
+	.byte	$7C
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$7C
+	.byte	$00
+	.byte	$00
+	.byte	$60
+	.byte	$30
+	.byte	$18
+	.byte	$0C
+	.byte	$06
+	.byte	$00
+	.byte	$00
+	.byte	$3E
+	.byte	$06
+	.byte	$06
+	.byte	$06
+	.byte	$06
+	.byte	$06
+	.byte	$3E
+	.byte	$00
+	.byte	$18
+	.byte	$3C
+	.byte	$66
+	.byte	$42
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$FF
+	.byte	$1C
+	.byte	$36
+	.byte	$30
+	.byte	$7C
+	.byte	$30
+	.byte	$30
+	.byte	$7E
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3C
+	.byte	$06
+	.byte	$3E
+	.byte	$66
+	.byte	$3E
+	.byte	$00
+	.byte	$60
+	.byte	$60
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$60
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$06
+	.byte	$06
+	.byte	$3E
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$7E
+	.byte	$60
+	.byte	$3C
+	.byte	$00
+	.byte	$1C
+	.byte	$30
+	.byte	$30
+	.byte	$7C
+	.byte	$30
+	.byte	$30
+	.byte	$30
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3E
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$06
+	.byte	$3C
+	.byte	$60
+	.byte	$60
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$18
+	.byte	$00
+	.byte	$38
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$3C
+	.byte	$00
+	.byte	$18
+	.byte	$00
+	.byte	$38
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$70
+	.byte	$60
+	.byte	$60
+	.byte	$66
+	.byte	$6C
+	.byte	$78
+	.byte	$6C
+	.byte	$66
+	.byte	$00
+	.byte	$38
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$3C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$36
+	.byte	$7F
+	.byte	$6B
+	.byte	$6B
+	.byte	$63
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3C
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$7C
+	.byte	$66
+	.byte	$66
+	.byte	$7C
+	.byte	$60
+	.byte	$60
+	.byte	$00
+	.byte	$00
+	.byte	$3E
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$06
+	.byte	$07
+	.byte	$00
+	.byte	$00
+	.byte	$6C
+	.byte	$76
+	.byte	$60
+	.byte	$60
+	.byte	$60
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$3E
+	.byte	$60
+	.byte	$3C
+	.byte	$06
+	.byte	$7C
+	.byte	$00
+	.byte	$30
+	.byte	$30
+	.byte	$7C
+	.byte	$30
+	.byte	$30
+	.byte	$30
+	.byte	$1C
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3C
+	.byte	$18
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$63
+	.byte	$6B
+	.byte	$6B
+	.byte	$7F
+	.byte	$36
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$66
+	.byte	$3C
+	.byte	$18
+	.byte	$3C
+	.byte	$66
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$66
+	.byte	$66
+	.byte	$66
+	.byte	$3E
+	.byte	$06
+	.byte	$3C
+	.byte	$00
+	.byte	$00
+	.byte	$7E
+	.byte	$0C
+	.byte	$18
+	.byte	$30
+	.byte	$7E
+	.byte	$00
+	.byte	$0C
+	.byte	$18
+	.byte	$18
+	.byte	$70
+	.byte	$18
+	.byte	$18
+	.byte	$0C
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$18
+	.byte	$18
+	.byte	$18
+	.byte	$00
+	.byte	$30
+	.byte	$18
+	.byte	$18
+	.byte	$0E
+	.byte	$18
+	.byte	$18
+	.byte	$30
+	.byte	$00
+	.byte	$31
+	.byte	$6B
+	.byte	$46
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$00
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+	.byte	$FF
+_stretch:
+	.byte	$00
+	.byte	$03
+	.byte	$0C
+	.byte	$0F
+	.byte	$30
+	.byte	$33
+	.byte	$3C
+	.byte	$3F
+	.byte	$C0
+	.byte	$C3
+	.byte	$CC
+	.byte	$CF
+	.byte	$F0
+	.byte	$F3
+	.byte	$FC
+	.byte	$FF
 
 .segment	"BSS"
 
@@ -58,7 +852,7 @@ _spr:
 
 .segment	"CODE"
 
-	jsr     push0
+	jsr     decsp2
 	ldx     #$28
 	lda     #$09
 	jsr     pushax
@@ -92,12 +886,15 @@ L0003:	jsr     ___end
 	lda     #$00
 	jsr     pushax
 	jsr     pusha
-	ldx     #$08
+	ldx     #$1F
+	lda     #$FF
 	jsr     _GD_fill
 	ldx     #$40
 	lda     #$00
 	jsr     pushax
 	jsr     pusha
+	dex
+	lda     #$FF
 	jsr     _GD_fill
 	ldx     #$2A
 	lda     #$00
@@ -254,6 +1051,32 @@ L0003:	jsr     ___end
 .endproc
 
 ; ---------------------------------------------------------------
+; char __near__ GD_rd (unsigned int addr)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_rd: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	jsr     decsp1
+	ldy     #$02
+	jsr     ldaxysp
+	jsr     ___start
+	lda     #$00
+	jsr     _spi_read
+	ldy     #$00
+	sta     (sp),y
+	jsr     ___end
+	ldx     #$00
+	lda     (sp,x)
+	jmp     incsp3
+
+.endproc
+
+; ---------------------------------------------------------------
 ; void __near__ GD_wr (unsigned int addr, char v)
 ; ---------------------------------------------------------------
 
@@ -324,6 +1147,41 @@ L0004:	jsr     ldax0sp
 	jsr     _spi_write_16
 	jsr     ___end
 	jmp     incsp4
+
+.endproc
+
+; ---------------------------------------------------------------
+; unsigned char __near__ GD_rd16 (unsigned int addr)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_rd16: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	jsr     decsp1
+	ldy     #$02
+	jsr     ldaxysp
+	jsr     ___start
+	lda     #$00
+	jsr     _spi_read
+	ldy     #$00
+	sta     (sp),y
+	lda     (sp),y
+	jsr     pusha0
+	lda     #$00
+	jsr     _spi_read
+	tax
+	lda     #$00
+	jsr     tosorax
+	ldy     #$00
+	sta     (sp),y
+	jsr     ___end
+	ldx     #$00
+	lda     (sp,x)
+	jmp     incsp3
 
 .endproc
 
@@ -408,6 +1266,83 @@ L0002:	jsr     ___wstart
 .endproc
 
 ; ---------------------------------------------------------------
+; void __near__ GD_sprite (char spr, int x, int y, char image, char palette, char rot, char jk)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_sprite: near
+
+.segment	"CODE"
+
+	jsr     pusha
+	ldy     #$08
+	ldx     #$00
+	lda     (sp),y
+	jsr     aslax2
+	sta     ptr1
+	stx     ptr1+1
+	clc
+	lda     ptr1
+	pha
+	lda     #$30
+	adc     ptr1+1
+	tax
+	pla
+	jsr     ___wstart
+	ldy     #$02
+	ldx     #$00
+	lda     (sp),y
+	jsr     aslax4
+	sta     ptr1
+	stx     ptr1+1
+	ldx     #$00
+	dey
+	lda     (sp),y
+	asl     a
+	bcc     L0002
+	inx
+L0002:	ora     ptr1
+	sta     ptr1
+	txa
+	ora     ptr1+1
+	sta     ptr1+1
+	ldy     #$06
+	lda     (sp),y
+	and     #$01
+	ora     ptr1
+	ldx     ptr1+1
+	jsr     _spi_write_16
+	ldx     #$00
+	lda     (sp,x)
+	jsr     aslax4
+	jsr     aslax3
+	sta     ptr1
+	stx     ptr1+1
+	ldx     #$00
+	ldy     #$03
+	lda     (sp),y
+	asl     a
+	bcc     L0003
+	inx
+L0003:	ora     ptr1
+	sta     ptr1
+	txa
+	ora     ptr1+1
+	sta     ptr1+1
+	iny
+	lda     (sp),y
+	and     #$01
+	ora     ptr1
+	ldx     ptr1+1
+	jsr     _spi_write_16
+	jsr     ___end
+	ldy     #$09
+	jmp     addysp
+
+.endproc
+
+; ---------------------------------------------------------------
 ; void __near__ GD_setpal (char pal, unsigned int rgb)
 ; ---------------------------------------------------------------
 
@@ -451,47 +1386,168 @@ L0002:	sta     ptr1
 
 .segment	"CODE"
 
-	jsr     decsp4
+	jsr     push0
+	jsr     stax0sp
+L0002:	jsr     ldax0sp
+	cmp     #$00
+	txa
+	sbc     #$03
+	bvc     L0006
+	eor     #$80
+L0006:	asl     a
 	ldx     #$00
-	stx     sreg
-	stx     sreg+1
-	lda     #$20
-	jsr     steax0sp
-L0002:	jsr     ldeax0sp
-	jsr     pusheax
+	jcc     L000C
+	lda     #<(_font8x8)
+	ldy     #$00
+	clc
+	adc     (sp),y
+	sta     ptr1
+	lda     #>(_font8x8)
+	iny
+	adc     (sp),y
+	sta     ptr1+1
+	lda     (ptr1,x)
+	jsr     pusha
+	lda     (sp,x)
+	lsr     a
+	lsr     a
+	lsr     a
+	lsr     a
+	sta     ptr1
+	clc
+	lda     #>(_stretch)
+	sta     ptr1+1
+	ldy     #<(_stretch)
+	lda     (ptr1),y
+	jsr     pusha
+	ldy     #$01
+	lda     (sp),y
+	and     #$0F
+	sta     ptr1
+	clc
+	lda     #>(_stretch)
+	sta     ptr1+1
+	ldy     #<(_stretch)
+	lda     (ptr1),y
+	jsr     pusha
+	ldy     #$04
+	jsr     ldaxysp
+	jsr     aslax1
+	sta     ptr1
+	stx     ptr1+1
+	clc
+	lda     ptr1
+	pha
+	lda     #$12
+	adc     ptr1+1
+	tax
+	pla
+	jsr     pushax
+	ldy     #$03
+	lda     (sp),y
+	jsr     _GD_wr
+	ldy     #$04
+	jsr     ldaxysp
+	jsr     aslax1
+	sta     ptr1
+	stx     ptr1+1
+	clc
+	lda     ptr1
+	pha
+	lda     #$12
+	adc     ptr1+1
+	tax
+	pla
+	jsr     incax1
+	jsr     pushax
+	ldy     #$02
+	lda     (sp),y
+	jsr     _GD_wr
+	jsr     incsp3
 	ldx     #$00
-	stx     sreg
-	stx     sreg+1
-	lda     #$80
-	jsr     toslteax
-	beq     L0003
-	jsr     ldeax0sp
-	jsr     asleax2
+	lda     #$01
+	jsr     addeq0sp
+	jmp     L0002
+L000C:	lda     #$20
+L0010:	jsr     stax0sp
+	cmp     #$80
+	txa
+	sbc     #$00
+	bvc     L000B
+	eor     #$80
+L000B:	asl     a
+	ldx     #$00
+	bcc     L000E
+	lda     (sp,x)
+	asl     a
+	asl     a
 	jsr     pusha
 	ldx     #$80
 	lda     #$00
 	jsr     _GD_setpal
-	jsr     ldeax0sp
-	jsr     asleax2
-	ldy     #$03
-	jsr     inceaxy
+	ldy     #$00
+	lda     (sp),y
+	asl     a
+	asl     a
+	clc
+	adc     #$03
 	jsr     pusha
 	ldx     #$7F
 	lda     #$FF
 	jsr     _GD_setpal
-	ldx     #$00
-	stx     sreg
-	stx     sreg+1
-	lda     #$01
-	jsr     laddeq0sp
-	jmp     L0002
-L0003:	jsr     push0
+	jsr     ldax0sp
+	jsr     incax1
+	jmp     L0010
+L000E:	jsr     push0
 	lda     #$20
 	jsr     pusha
 	ldx     #$10
 	lda     #$00
 	jsr     _GD_fill
-	jmp     incsp4
+	jmp     incsp2
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ GD_copy (unsigned int addr, char *src, int count)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_copy: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	jsr     push0
+	ldy     #$07
+	jsr     ldaxysp
+	jsr     ___wstart
+	jmp     L0004
+L0002:	jsr     ldax0sp
+	clc
+	ldy     #$04
+	adc     (sp),y
+	sta     ptr1
+	txa
+	iny
+	adc     (sp),y
+	sta     ptr1+1
+	ldy     #$00
+	lda     (ptr1),y
+	jsr     _spi_write
+	ldx     #$00
+	lda     #$01
+	jsr     addeq0sp
+L0004:	ldx     #$00
+	lda     #$01
+	ldy     #$02
+	jsr     subeqysp
+	stx     tmp1
+	ora     tmp1
+	bne     L0002
+	jsr     ___end
+	jmp     incsp8
 
 .endproc
 

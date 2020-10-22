@@ -6,13 +6,17 @@ extern void GD_xhide();
 extern void __start(unsigned addr);
 extern void __wstart(unsigned addr);
 extern void __end(void);
+extern char GD_rd(unsigned addr);
 extern void GD_wr(unsigned addr, char v);
 extern void GD_fill(unsigned addr, char v, unsigned count);
 extern void GD_wr16(unsigned addr, unsigned v);
+extern unsigned char GD_rd16(unsigned addr);
 extern void GD_putstr(char x, char y, const char *s);
 extern void GD_putchar(char x, char y, char c);  //x = pozice znaku y = cislo radky
+extern void GD_sprite(char spr, int x, int y, char image, char palette, char rot, char jk);
 extern void GD_setpal(char pal, unsigned rgb);
 extern void GD_ascii();
+extern void GD_copy(unsigned addr, char *src, int count);
 
 #define RGB(r,g,b) ((((r) >> 3) << 10) | (((g) >> 3) << 5) | ((b) >> 3))
 #define TRANSPARENT (1 << 15) // transparent for chars and sprites

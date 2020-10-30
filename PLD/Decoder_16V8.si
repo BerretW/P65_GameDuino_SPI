@@ -1,0 +1,16 @@
+Name     Decoder_16V8;
+PartNo   00;
+Date     31/1/2020;
+Revision 01;
+Designer Alois;
+Company  Appartus;
+Assembly None;
+Location ;
+Device   g16v8;
+
+
+ORDER: A8, A9, A10, A11, CS, IO, nCS; 
+
+
+VECTORS:
+1000*1*

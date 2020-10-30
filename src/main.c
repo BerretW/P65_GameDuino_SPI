@@ -4,6 +4,7 @@
 
 
 #include "acia.h"
+#include "lcd.h"
 //#include "bank.h"
 //#include "wait.h"
 //
@@ -15,7 +16,18 @@
 
 #include "spi.h"
 int i = 0;
+int radek = 0;
 char c;
+
+void print_f(const char * s){
+  GD_putstr(0,radek,s);
+  ++radek;
+  acia_put_newline();
+  acia_puts(s);
+  lcd_puts(s);
+
+}
+
 
 void main(void) {
   //
@@ -27,10 +39,10 @@ void main(void) {
 
 
   bg_colour = RGB(0, 0, 0);
-  GD_wr16(BG_COLOR, bg_colour);
+  //GD_wr16(BG_COLOR, bg_colour);
 
-  GD_copy(RAM_CHR, Wood32_chr, 0x200);
-  GD_copy(RAM_PAL, Wood32_pal, 0x100);
+//  GD_copy(RAM_CHR, Wood32_chr, 0x200);
+  //GD_copy(RAM_PAL, Wood32_pal, 0x100);
 
   //GD_copy(RAM_SPRIMG, staunton_img, sizeof(staunton_img));
   //GD_copy(RAM_SPRPAL, staunton_white, sizeof(staunton_white));
@@ -45,19 +57,13 @@ void main(void) {
 //GD_sprite(0x0, 200, 200, 0x1, 0x0, 0x0,0x0);
 
 
-
-  GD_putstr(0,10,"Ahoj Volove");
-  acia_put_newline();
-  acia_puts("ahoj volove");
+  print_f("Ahoj Volove");
+  //GD_putstr(0,10,"Ahoj Volove");
+  //acia_put_newline();
+  //acia_puts("ahoj volove");
   //spi_write_to(0x280E, 0x15);
   //spi_write_to(0x280F, 0xF0);
-  while(1){
 
-    for (i =0;i<20;++i){
-      GD_fill(RAM_PIC, 41+i, 0x0FFF);
-    }
-
-  }
   while(1){
     c = acia_getc();
     GD_putchar(i,y, c);
@@ -77,7 +83,13 @@ void main(void) {
     }
   }
 
+  while(1){
 
+    for (i =0;i<20;++i){
+      GD_fill(RAM_PIC, 41+i, 0x0FFF);
+    }
+
+  }
 
 
 }

@@ -15,18 +15,19 @@
 	.import		_acia_puts
 	.import		_acia_put_newline
 	.import		_acia_getc
+	.import		_lcd_puts
 	.import		_GD_Init
 	.import		_GD_fill
-	.import		_GD_wr16
 	.import		_GD_putstr
 	.import		_GD_putchar
-	.import		_GD_copy
 	.export		_Wood32_chr
 	.export		_Wood32_pal
 	.export		_staunton_white
 	.export		_staunton_img
 	.export		_i
+	.export		_radek
 	.export		_c
+	.export		_print_f
 	.export		_main
 
 .segment	"DATA"
@@ -1317,11 +1318,11 @@ _staunton_img:
 	.byte	$C6
 _i:
 	.word	$0000
+_radek:
+	.word	$0000
 
 .segment	"RODATA"
 
-S0002:
-	.byte	$61,$68,$6F,$6A,$20,$76,$6F,$6C,$6F,$76,$65,$00
 S0001:
 	.byte	$41,$68,$6F,$6A,$20,$56,$6F,$6C,$6F,$76,$65,$00
 
@@ -1329,6 +1330,36 @@ S0001:
 
 _c:
 	.res	1,$00
+
+; ---------------------------------------------------------------
+; void __near__ print_f (const char *s)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_print_f: near
+
+.segment	"CODE"
+
+	jsr     pushax
+	lda     #$00
+	jsr     pusha
+	lda     _radek
+	jsr     pusha
+	ldy     #$03
+	jsr     ldaxysp
+	jsr     _GD_putstr
+	inc     _radek
+	bne     L0002
+	inc     _radek+1
+L0002:	jsr     _acia_put_newline
+	jsr     ldax0sp
+	jsr     _acia_puts
+	jsr     ldax0sp
+	jsr     _lcd_puts
+	jmp     incsp2
+
+.endproc
 
 ; ---------------------------------------------------------------
 ; void __near__ main (void)
@@ -1346,67 +1377,10 @@ _c:
 	ldx     #$00
 	txa
 	jsr     stax0sp
-	ldx     #$28
-	lda     #$0E
-	jsr     pushax
-	ldy     #$03
-	jsr     ldaxysp
-	jsr     _GD_wr16
-	ldx     #$10
-	lda     #$00
-	jsr     pushax
-	lda     #<(_Wood32_chr)
-	ldx     #>(_Wood32_chr)
-	jsr     pushax
-	ldx     #$02
-	lda     #$00
-	jsr     _GD_copy
-	ldx     #$20
-	lda     #$00
-	jsr     pushax
-	lda     #<(_Wood32_pal)
-	ldx     #>(_Wood32_pal)
-	jsr     pushax
-	ldx     #$01
-	lda     #$00
-	jsr     _GD_copy
-	lda     #$00
-	jsr     pusha
-	lda     #$0A
-	jsr     pusha
 	lda     #<(S0001)
 	ldx     #>(S0001)
-	jsr     _GD_putstr
-	jsr     _acia_put_newline
-	lda     #<(S0002)
-	ldx     #>(S0002)
-	jsr     _acia_puts
-	lda     #$00
-L0017:	sta     _i
-	sta     _i+1
-L0005:	lda     _i
-	cmp     #$14
-	lda     _i+1
-	sbc     #$00
-	bvc     L0009
-	eor     #$80
-L0009:	asl     a
-	lda     #$00
-	bcc     L0017
-	jsr     push0
-	lda     _i
-	ldx     _i+1
-	ldy     #$29
-	jsr     incaxy
-	jsr     pusha
-	ldx     #$0F
-	lda     #$FF
-	jsr     _GD_fill
-	inc     _i
-	bne     L0005
-	inc     _i+1
-	jmp     L0005
-L000B:	jsr     _acia_getc
+	jsr     _print_f
+L0002:	jsr     _acia_getc
 	sta     _c
 	lda     _i
 	jsr     pusha
@@ -1419,36 +1393,36 @@ L000B:	jsr     _acia_getc
 	jsr     _acia_putc
 	lda     _c
 	cmp     #$08
-	beq     L000E
+	beq     L0005
 	inc     _i
-	bne     L0011
+	bne     L0008
 	inc     _i+1
-	jmp     L0011
-L000E:	lda     _i
+	jmp     L0008
+L0005:	lda     _i
 	cmp     #$01
 	lda     _i+1
 	sbc     #$00
-	bvs     L0012
+	bvs     L0009
 	eor     #$80
-L0012:	bpl     L0011
+L0009:	bpl     L0008
 	lda     _i
 	sec
 	sbc     #$01
 	sta     _i
-	bcs     L0013
+	bcs     L000A
 	dec     _i+1
-L0013:	lda     _i
+L000A:	lda     _i
 	jsr     pusha
 	ldy     #$03
 	lda     (sp),y
 	jsr     pusha
 	lda     _c
 	jsr     _GD_putchar
-L0011:	lda     _i+1
-	bne     L000B
+L0008:	lda     _i+1
+	bne     L0002
 	lda     _i
 	cmp     #$32
-	bne     L000B
+	bne     L0002
 	ldx     #$00
 	txa
 	sta     _i
@@ -1456,7 +1430,30 @@ L0011:	lda     _i+1
 	ldy     #$02
 	lda     #$01
 	jsr     addeqysp
-	jmp     L000B
+	jmp     L0002
+L0017:	sta     _i
+	sta     _i+1
+L0010:	lda     _i
+	cmp     #$14
+	lda     _i+1
+	sbc     #$00
+	bvc     L0014
+	eor     #$80
+L0014:	asl     a
+	lda     #$00
+	bcc     L0017
+	jsr     push0
+	lda     _i
+	ldx     _i+1
+	ldy     #$29
+	jsr     incaxy
+	jsr     pusha
+	ldx     #$0F
+	lda     #$FF
+	jsr     _GD_fill
+	inc     _i
+	bne     L0010
+	inc     _i+1
+	jmp     L0010
 
 .endproc
-

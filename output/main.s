@@ -15,6 +15,7 @@
 	.import		_acia_puts
 	.import		_acia_put_newline
 	.import		_acia_getc
+	.import		_lcd_put_newline
 	.import		_lcd_puts
 	.import		_GD_Init
 	.import		_GD_fill
@@ -26,6 +27,7 @@
 	.export		_staunton_img
 	.export		_i
 	.export		_radek
+	.export		_radek_lcd
 	.export		_c
 	.export		_print_f
 	.export		_main
@@ -1320,11 +1322,15 @@ _i:
 	.word	$0000
 _radek:
 	.word	$0000
+_radek_lcd:
+	.word	$0000
 
 .segment	"RODATA"
 
 S0001:
 	.byte	$41,$68,$6F,$6A,$20,$56,$6F,$6C,$6F,$76,$65,$00
+S0002:
+	.byte	$4E,$6F,$20,$6E,$61,$7A,$64,$61,$72,$00
 
 .segment	"BSS"
 
@@ -1357,6 +1363,7 @@ L0002:	jsr     _acia_put_newline
 	jsr     _acia_puts
 	jsr     ldax0sp
 	jsr     _lcd_puts
+	jsr     _lcd_put_newline
 	jmp     incsp2
 
 .endproc
@@ -1374,13 +1381,14 @@ L0002:	jsr     _acia_put_newline
 	jsr     push0
 	jsr     decsp2
 	jsr     _GD_Init
-	ldx     #$00
-	txa
-	jsr     stax0sp
 	lda     #<(S0001)
 	ldx     #>(S0001)
 	jsr     _print_f
-L0002:	jsr     _acia_getc
+	lda     #<(S0002)
+	ldx     #>(S0002)
+	jsr     _print_f
+L0019:	jmp     L0019
+L0005:	jsr     _acia_getc
 	sta     _c
 	lda     _i
 	jsr     pusha
@@ -1393,36 +1401,36 @@ L0002:	jsr     _acia_getc
 	jsr     _acia_putc
 	lda     _c
 	cmp     #$08
-	beq     L0005
+	beq     L0008
 	inc     _i
-	bne     L0008
+	bne     L000B
 	inc     _i+1
-	jmp     L0008
-L0005:	lda     _i
+	jmp     L000B
+L0008:	lda     _i
 	cmp     #$01
 	lda     _i+1
 	sbc     #$00
-	bvs     L0009
+	bvs     L000C
 	eor     #$80
-L0009:	bpl     L0008
+L000C:	bpl     L000B
 	lda     _i
 	sec
 	sbc     #$01
 	sta     _i
-	bcs     L000A
+	bcs     L000D
 	dec     _i+1
-L000A:	lda     _i
+L000D:	lda     _i
 	jsr     pusha
 	ldy     #$03
 	lda     (sp),y
 	jsr     pusha
 	lda     _c
 	jsr     _GD_putchar
-L0008:	lda     _i+1
-	bne     L0002
+L000B:	lda     _i+1
+	bne     L0005
 	lda     _i
 	cmp     #$32
-	bne     L0002
+	bne     L0005
 	ldx     #$00
 	txa
 	sta     _i
@@ -1430,18 +1438,18 @@ L0008:	lda     _i+1
 	ldy     #$02
 	lda     #$01
 	jsr     addeqysp
-	jmp     L0002
-L0017:	sta     _i
+	jmp     L0005
+L001B:	sta     _i
 	sta     _i+1
-L0010:	lda     _i
+L0013:	lda     _i
 	cmp     #$14
 	lda     _i+1
 	sbc     #$00
-	bvc     L0014
+	bvc     L0017
 	eor     #$80
-L0014:	asl     a
+L0017:	asl     a
 	lda     #$00
-	bcc     L0017
+	bcc     L001B
 	jsr     push0
 	lda     _i
 	ldx     _i+1
@@ -1452,8 +1460,9 @@ L0014:	asl     a
 	lda     #$FF
 	jsr     _GD_fill
 	inc     _i
-	bne     L0010
+	bne     L0013
 	inc     _i+1
-	jmp     L0010
+	jmp     L0013
 
 .endproc
+

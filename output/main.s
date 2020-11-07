@@ -15,12 +15,16 @@
 	.import		_acia_puts
 	.import		_acia_put_newline
 	.import		_acia_getc
+	.import		_lcd_init
 	.import		_lcd_put_newline
 	.import		_lcd_puts
 	.import		_GD_Init
 	.import		_GD_fill
+	.import		_GD_wr16
 	.import		_GD_putstr
 	.import		_GD_putchar
+	.import		_GD_ascii
+	.import		_GD_copy
 	.export		_Wood32_chr
 	.export		_Wood32_pal
 	.export		_staunton_white
@@ -1381,6 +1385,35 @@ L0002:	jsr     _acia_put_newline
 	jsr     push0
 	jsr     decsp2
 	jsr     _GD_Init
+	jsr     _lcd_init
+	jsr     _GD_ascii
+	ldx     #$00
+	txa
+	jsr     stax0sp
+	ldx     #$28
+	lda     #$0E
+	jsr     pushax
+	ldy     #$03
+	jsr     ldaxysp
+	jsr     _GD_wr16
+	ldx     #$10
+	lda     #$00
+	jsr     pushax
+	lda     #<(_Wood32_chr)
+	ldx     #>(_Wood32_chr)
+	jsr     pushax
+	ldx     #$02
+	lda     #$00
+	jsr     _GD_copy
+	ldx     #$20
+	lda     #$00
+	jsr     pushax
+	lda     #<(_Wood32_pal)
+	ldx     #>(_Wood32_pal)
+	jsr     pushax
+	ldx     #$01
+	lda     #$00
+	jsr     _GD_copy
 	lda     #<(S0001)
 	ldx     #>(S0001)
 	jsr     _print_f

@@ -35,16 +35,16 @@ void main(void) {
   int y = 0;
   unsigned bg_colour;
   GD_Init();
-//  lcd_init();
+  lcd_init();
 //GD_fill(RAM_PIC, 0, 0x1000);
-//  GD_ascii();
+  GD_ascii();
 
 
-//  bg_colour = RGB(0, 0, 0);
-//  GD_wr16(BG_COLOR, bg_colour);
+  bg_colour = RGB(0, 0, 0);
+  GD_wr16(BG_COLOR, bg_colour);
 
-//GD_copy(RAM_CHR, Wood32_chr, 0x200);
-//GD_copy(RAM_PAL, Wood32_pal, 0x100);
+GD_copy(RAM_CHR, Wood32_chr, 0x200);
+GD_copy(RAM_PAL, Wood32_pal, 0x100);
 
 //  GD_copy(RAM_SPRIMG, staunton_img, sizeof(staunton_img));
 //  GD_copy(RAM_SPRPAL, staunton_white, sizeof(staunton_white));

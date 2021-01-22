@@ -7,7 +7,7 @@ char spr;
 
 void GD_Init(){
 int i;
-//spi_init();
+spi_init();
 GD_wr(J1_RESET, 1);
 __wstart(RAM_SPR);            // Hide sdfall sprites
 for ( i = 0; i < 0x200; ++i) GD_xhide();

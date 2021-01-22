@@ -46,6 +46,8 @@ _spi_init:					LDA #4
 
 _spi_write:					STA SPI_DATA
 										JSR spi_delay
+JSR spi_delay
+JSR spi_delay
 										RTS
 
 _spi_write_16:			STA adrL

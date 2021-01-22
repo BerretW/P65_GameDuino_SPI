@@ -1,15 +1,15 @@
 del .\output\*.*
 
 cd .\src
-cc65 -t none -O --cpu 6502 main.c
-cc65 -t none -O --cpu 6502 gameduino.c
-ca65 --cpu 6502 main.s -o ..\output\main.o
-ca65 --cpu 6502 gameduino.s -o ..\output\gameduino.o
-ca65 --cpu 6502 spi.asm -o ..\output\spi.o
-ca65 --cpu 6502 vectors.asm -o ..\output\vectors.o
-ca65 --cpu 6502 acia.asm -o ..\output\acia.o
-ca65 --cpu 6502 interrupts.asm -o ..\output\interrupts.o
-ca65 --cpu 6502 lcd.asm -o ..\output\lcd.o
+cc65 -t none -O --cpu 65C02 main.c
+cc65 -t none -O --cpu 65c02 gameduino.c
+ca65 --cpu 65c02 main.s -o ..\output\main.o
+ca65 --cpu 65c02 gameduino.s -o ..\output\gameduino.o
+ca65 --cpu 65c02 spi.asm -o ..\output\spi.o
+ca65 --cpu 65c02 vectors.asm -o ..\output\vectors.o
+ca65 --cpu 65c02 acia.asm -o ..\output\acia.o
+ca65 --cpu 65c02 interrupts.asm -o ..\output\interrupts.o
+ca65 --cpu 65c02 lcd.asm -o ..\output\lcd.o
 
 move *.s ..\output
 

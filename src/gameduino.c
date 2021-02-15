@@ -33,9 +33,6 @@ GD_fill(PALETTE16A, 0, 0x80);     // Black 16-, 4-palletes and COMM
   GD_wr(MODULATOR, 64);
 }
 
-void GD_Begin(){
-  spi_begin();
-}
 
 char GD_rd(unsigned addr){
 char r;
@@ -57,7 +54,7 @@ void GD_wr(unsigned addr, char v)
 void GD_wr16(unsigned addr, unsigned v)
 {
   __wstart(addr);
-  spi_write_16(v);
+  spi_write_16_data(v);
   __end();
 }
 
@@ -74,8 +71,8 @@ unsigned char GD_rd16(unsigned addr){
 }
 
 void __start(unsigned addr){
-  spi_begin();
-  spi_write_16(addr);
+  spi_begin(14);
+  spi_write_16_addr(addr);
 }
 
 void __wstart(unsigned addr) // start an SPI write transaction to addr
@@ -103,18 +100,26 @@ void GD_putstr(char x, char y, const char *s)
   __end();
 }
 
-void GD_putchar(char x, char y, char c)
+void __GD_putchar(char c, char x, char y)
 {
   __wstart((y << 6) + x);
     spi_write(c);
   __end();
 }
 
+void GD_putchar(char x, char y, char c)
+{
+  __GD_putchar(0x41,5,1);
+//  __wstart((y << 6) + x);
+//    spi_write(c);
+//  __end();
+}
+
 void GD_sprite(char spr, int x, int y, char image, char palette, char rot, char jk)
 {
   __wstart(RAM_SPR + (spr << 2));
-  spi_write_16((palette << 4) | (rot << 1) | (x & 1));
-  spi_write_16((jk << 7) | (image << 1) | (y & 1));
+  spi_write_16_data( (palette << 12) | (rot <<9) | x);
+  spi_write_16_data((jk <<15) |(image << 9) |y);
   __end();
 }
 
@@ -166,7 +171,11 @@ void GD_setpal(char pal, unsigned rgb)
 //sprites
 
 void GD_xhide(){
-  spi_write_16(0x190);
-  spi_write_16(0x190);
+  //spi_write_16(0x190);
+  spi_write_16_data(0x190);
+  //spi_write(0x90);
+  //spi_write(0x1);
+  //spi_write(0x90);
+  //spi_write(0x1);
   ++spr;
 }

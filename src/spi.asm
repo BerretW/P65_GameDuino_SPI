@@ -12,7 +12,8 @@ adrL = tmp3
 .export _spi_begin
 .export _spi_end
 .export _spi_write
-.export _spi_write_16
+.export _spi_write_16_addr
+.export _spi_write_16_data
 .export _spi_read
 .export _spi_init
 .code
@@ -46,15 +47,19 @@ _spi_init:					LDA #4
 
 _spi_write:					STA SPI_DATA
 										JSR spi_delay
-JSR spi_delay
-JSR spi_delay
+										;JSR spi_delay
+										;JSR spi_delay
 										RTS
 
-_spi_write_16:			STA adrL
-										STX adrH
-										LDA adrH
+_spi_write_16_addr:	PHA
+										TXA
 										JSR _spi_write
-										LDA adrL
+										PLA
+										JSR _spi_write
+										RTS
+_spi_write_16_data:
+										JSR _spi_write
+										TXA
 										JSR _spi_write
 										RTS
 
@@ -62,16 +67,18 @@ _spi_read:					STA SPI_DATA
 										LDA SPI_DATA
 										RTS
 
-_spi_begin:					LDA SPI_CS
+_spi_begin:					;LDA #0			;CS0 = 14, CS1=13, CS2=11, CS3=7
 										STA SPI_CSSEL
+
 										RTS
 
-_spi_end:						LDA #$F
+_spi_end:						PHA
+										LDA #$F
 										STA SPI_CSSEL
+										PLA
 										RTS
 
-spi_delay:					RTS
-										LDX #1
-@_delay_1:					DEX
-										BEQ @_delay_1
+spi_delay:					LDY #$4
+@_delay_1:					DEY
+										BNE @_delay_1
 										RTS

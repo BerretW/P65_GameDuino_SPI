@@ -1,6 +1,6 @@
 ; ACIA registers
 
-ACIA_BASE    = $CFF0
+ACIA_BASE    = $CF30
 ACIA_DATA    = ACIA_BASE
 ACIA_STATUS  = ACIA_BASE + 1
 ACIA_COMMAND = ACIA_BASE + 2
@@ -10,7 +10,7 @@ ACIA_CONTROL = ACIA_BASE + 3
 
 ;BANK registers
 
-BANK_BASE   = $CE00
+BANK_BASE   = $0
 
 ; ACIA control register bit values
 
@@ -134,7 +134,7 @@ SPI_DATA   = $C000
 SPI_CSSEL		=	SPI_DATA + 3
 SPI_STATUS	=	SPI_DATA + 1
 SPI_DIV     = SPI_DATA + 2
-SPI_CS			= $0			;CS0 = 14, CS1=13, CS2=11, CS3=7
+
 
 
 RAMDISK = $6000

@@ -34,6 +34,10 @@
 	.import		_spi_init
 	.import		_spi_read
 	.export		_spr
+	.export		__posx
+	.export		__posy
+	.export		_GD_set_cur_pos
+	.export		_CLR_scr
 	.export		___GD_putchar
 
 .segment	"DATA"
@@ -829,6 +833,10 @@ _stretch:
 
 _spr:
 	.res	1,$00
+__posx:
+	.res	1,$00
+__posy:
+	.res	1,$00
 
 ; ---------------------------------------------------------------
 ; void __near__ GD_Init (void)
@@ -840,49 +848,18 @@ _spr:
 
 .segment	"CODE"
 
-	jsr     decsp2
 	jsr     _spi_init
 	ldx     #$28
 	lda     #$09
 	jsr     pushax
 	lda     #$01
 	jsr     _GD_wr
-	ldx     #$30
-	lda     #$00
-	jsr     ___wstart
-	ldx     #$00
-	txa
-	jsr     stax0sp
-L0002:	jsr     ldax0sp
-	cmp     #$00
-	txa
-	sbc     #$02
-	bvc     L0006
-	eor     #$80
-L0006:	bpl     L0003
-	jsr     _GD_xhide
-	ldx     #$00
-	lda     #$01
-	jsr     addeq0sp
-	bra     L0002
-L0003:	jsr     ___end
-	jsr     push0
-	jsr     pusha
-	ldx     #$0F
-	lda     #$FF
-	jsr     _GD_fill
+	jsr     _CLR_scr
 	ldx     #$38
 	lda     #$00
 	jsr     pushax
 	jsr     pusha
 	ldx     #$1F
-	dea
-	jsr     _GD_fill
-	ldx     #$40
-	lda     #$00
-	jsr     pushax
-	jsr     pusha
-	dex
 	dea
 	jsr     _GD_fill
 	ldx     #$2A
@@ -959,8 +936,7 @@ L0003:	jsr     ___end
 	lda     #$14
 	jsr     pushax
 	lda     #$40
-	jsr     _GD_wr
-	jmp     incsp2
+	jmp     _GD_wr
 
 .endproc
 
@@ -1227,12 +1203,24 @@ L0004:	jsr     ldax0sp
 .segment	"CODE"
 
 	jsr     pusha
-	lda     #$41
-	jsr     pusha
-	lda     #$05
-	jsr     pusha
-	lda     #$01
-	jsr     ___GD_putchar
+	ldy     #$01
+	ldx     #$00
+	lda     (sp),y
+	jsr     aslax4
+	jsr     aslax2
+	sta     ptr1
+	stx     ptr1+1
+	iny
+	lda     (sp),y
+	clc
+	adc     ptr1
+	ldx     ptr1+1
+	bcc     L0002
+	inx
+L0002:	jsr     ___wstart
+	lda     (sp)
+	jsr     _spi_write
+	jsr     ___end
 	jmp     incsp3
 
 .endproc
@@ -1530,6 +1518,58 @@ L0004:	ldx     #$00
 .endproc
 
 ; ---------------------------------------------------------------
+; void __near__ GD_set_cur_pos (char x, char y)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_GD_set_cur_pos: near
+
+.segment	"CODE"
+
+	jsr     pusha
+	lda     (sp)
+	sta     __posy
+	ldy     #$01
+	lda     (sp),y
+	sta     __posx
+	jmp     incsp2
+
+.endproc
+
+; ---------------------------------------------------------------
+; void __near__ CLR_scr (void)
+; ---------------------------------------------------------------
+
+.segment	"CODE"
+
+.proc	_CLR_scr: near
+
+.segment	"CODE"
+
+	jsr     push0
+	jsr     pusha
+	ldx     #$0F
+	lda     #$FF
+	jsr     _GD_fill
+	ldx     #$40
+	lda     #$00
+	jsr     pushax
+	jsr     pusha
+	dex
+	dea
+	jsr     _GD_fill
+	ldx     #$40
+	lda     #$00
+	jsr     pushax
+	jsr     pusha
+	dex
+	dea
+	jmp     _GD_fill
+
+.endproc
+
+; ---------------------------------------------------------------
 ; void __near__ __GD_putchar (char c, char x, char y)
 ; ---------------------------------------------------------------
 
@@ -1561,3 +1601,4 @@ L0002:	jsr     ___wstart
 	jmp     incsp3
 
 .endproc
+

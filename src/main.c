@@ -43,6 +43,8 @@ void main(void) {
   char rotace = 0;
   int y = 0;
   unsigned bg_colour;
+
+
   GD_Init();
 //  lcd_init();
 //GD_fill(RAM_PIC, 0, 0x1000);

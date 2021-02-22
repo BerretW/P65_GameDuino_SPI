@@ -3,19 +3,31 @@
 
 
 char spr;
+char _posx;
+char _posy;
 
+void GD_set_cur_pos(char x, char y){
+  _posy = y;
+  _posx = x;
+}
+
+void CLR_scr(){
+  //int i = 0;
+  //__wstart(RAM_SPR);            // Hide sdfall sprites
+  //for (i = 0; i < 0x200; ++i) GD_xhide();
+  //__end();
+  GD_fill(RAM_PIC, 0, 0x0FFF);  // Zero all character RAM
+  GD_fill(RAM_SPRIMG, 0, 0x3FFF);   // Clear all sprite data
+  GD_fill(RAM_SPRIMG, 0, 0x3FFF);   // Clear all sprite data
+}
 
 void GD_Init(){
-int i;
+  //GD_set_cur_pos(1,15);
 spi_init();
 GD_wr(J1_RESET, 1);
-__wstart(RAM_SPR);            // Hide sdfall sprites
-for ( i = 0; i < 0x200; ++i) GD_xhide();
-__end();
+CLR_scr();
 
-GD_fill(RAM_PIC, 0, 0x0FFF);  // Zero all character RAM
 GD_fill(RAM_SPRPAL, 0, 0x1FFF);    // Sprite palletes black
-GD_fill(RAM_SPRIMG, 0, 0x3FFF);   // Clear all sprite data
 GD_fill(VOICES, 0, 0x100);         // Silence
 GD_fill(PALETTE16A, 0, 0x80);     // Black 16-, 4-palletes and COMM
 
@@ -109,14 +121,15 @@ void __GD_putchar(char c, char x, char y)
 
 void GD_putchar(char x, char y, char c)
 {
-  __GD_putchar(0x41,5,1);
-//  __wstart((y << 6) + x);
-//    spi_write(c);
-//  __end();
+
+  __wstart((y << 6) + x);
+    spi_write(c);
+  __end();
 }
 
 void GD_sprite(char spr, int x, int y, char image, char palette, char rot, char jk)
 {
+//  CLR_scr();
   __wstart(RAM_SPR + (spr << 2));
   spi_write_16_data( (palette << 12) | (rot <<9) | x);
   spi_write_16_data((jk <<15) |(image << 9) |y);
@@ -160,6 +173,8 @@ void GD_copy(unsigned addr, char *src, int count)
   }
   __end();
 }
+
+
 
 void GD_setpal(char pal, unsigned rgb)
 {

@@ -69,7 +69,6 @@ _spi_read:					STA SPI_DATA
 
 _spi_begin:					;LDA #0			;CS0 = 14, CS1=13, CS2=11, CS3=7
 										STA SPI_CSSEL
-
 										RTS
 
 _spi_end:						PHA
